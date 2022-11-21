@@ -13,6 +13,6 @@ import java.io.IOException;
 public class JwtAccessDenieHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        response.sendError(HttpServletResponse.SC_FORBIDDEN,"You are not Authorized to access this url");
+        response.sendRedirect(request.getContextPath()+"/accessDenied");
     }
 }

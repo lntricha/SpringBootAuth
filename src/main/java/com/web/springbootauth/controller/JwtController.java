@@ -122,4 +122,12 @@ public class JwtController {
         return ResponseEntity.ok(new JwtSuccessResponse("You are authorized to access Inventory update"));
     }
 
+    @GetMapping("/accessDenied")
+    public ResponseEntity<Object> accessDenied() throws Exception {
+
+        return ResponseEntity.ok(new JwtSuccessResponse("You are Unauthorized to access this service"));
+    }
+
+
+
 }

@@ -47,13 +47,17 @@ public class JwtController {
             System.out.println("User not found :"+usernameNotFoundException.getMessage());
             throw new Exception("Bad credentials");
         }
+        JwtResponse jwtResponse;
+        try {
+            UserDetails userDetails = this.customUserDetailService.loadUserByUsername(jwtRequest.getUserName());
 
-        UserDetails userDetails=this.customUserDetailService.loadUserByUsername(jwtRequest.getUserName());
-
-        String token = this.jwtUtil.generateToken(userDetails);
-        System.out.println("Token : "+token);
+            String token = this.jwtUtil.generateToken(userDetails);
+            System.out.println("Token : " + token);
 //        System.out.println("userDetails : "+userDetails.toString());
-        JwtResponse jwtResponse=new JwtResponse(token,userDetails);
+             jwtResponse = new JwtResponse(token, userDetails);
+        }catch (UsernameNotFoundException usernameNotFoundException){
+            return ResponseEntity.ok(new JwtSuccessResponse("User not exist"));
+        }
 //         String s= ObjectToJson.getStringFromObject(userDetails);
         return ResponseEntity.ok(jwtResponse);
     }

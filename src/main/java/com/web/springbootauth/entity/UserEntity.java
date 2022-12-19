@@ -49,6 +49,15 @@ public class UserEntity implements UserDetails, Serializable {
         this.roleDescription = roleDescription;
     }
 
+    public UserEntity(Long userId,String firstName, String lastName, String emailId, Long ROLE_ID) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.emailId = emailId;
+        this.roleDescription = new RoleEntity();
+        this.roleDescription.setRoleId(ROLE_ID);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set authorities= new HashSet();

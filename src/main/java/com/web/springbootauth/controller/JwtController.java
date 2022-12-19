@@ -1,14 +1,17 @@
 package com.web.springbootauth.controller;
 
 import com.web.springbootauth.CustomAuthenticationManager;
+import com.web.springbootauth.entity.DummyUser;
 import com.web.springbootauth.entity.UserEntity;
 import com.web.springbootauth.helper.JwtUtil;
 import com.web.springbootauth.helper.ObjectToJson;
 import com.web.springbootauth.model.JwtRequest;
 import com.web.springbootauth.model.JwtResponse;
 import com.web.springbootauth.model.JwtSuccessResponse;
+import com.web.springbootauth.model.JwtUpdateRequest;
 import com.web.springbootauth.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -61,6 +64,25 @@ public class JwtController {
 //         String s= ObjectToJson.getStringFromObject(userDetails);
         return ResponseEntity.ok(jwtResponse);
     }
+
+
+    @PostMapping(value="/update", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Object> updateRecord(@RequestBody UserEntity jwtRequest) throws Exception {
+        System.out.println(jwtRequest);
+
+
+
+        JwtSuccessResponse jwtResponse;
+        try {
+            customUserDetailService.saveUser(jwtRequest);
+            jwtResponse = new JwtSuccessResponse("Updated");
+        }catch (UsernameNotFoundException usernameNotFoundException){
+            return ResponseEntity.ok(new JwtSuccessResponse("User not exist"));
+        }
+//         String s= ObjectToJson.getStringFromObject(userDetails);
+        return ResponseEntity.ok(jwtResponse);
+    }
+
 
     @PostMapping("/priceLookup")
     @PreAuthorize("hasAnyRole('Store Associate','Cashier', 'Manager', 'Admin')")

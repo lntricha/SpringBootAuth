@@ -30,4 +30,14 @@ public class CustomUserDetailService implements UserDetailsService {
         else
             throw new UsernameNotFoundException("User not found");
     }
+
+
+    public UserDetails saveUser(UserEntity userEntity) throws UsernameNotFoundException {
+
+        userEntity = userRepository.save(userEntity);
+        if(userEntity!=null)
+            return userEntity;
+        else
+            throw new UsernameNotFoundException("User not found");
+    }
 }
